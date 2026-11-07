@@ -2,7 +2,7 @@
    - App shell is cached so the installed app opens instantly, even offline
    - Fonts / icon font / Firebase SDK are cached after first load
    - Live school data (Firestore) is never touched here; the Firebase SDK keeps its own offline cache */
-const VERSION = 'wp-parent-v1';
+const VERSION = 'wp-parent-v2';
 const SHELL = [
   './',
   './index.html',
@@ -13,7 +13,7 @@ const SHELL = [
   './icons/apple-touch-icon.png',
   './icons/favicon-64.png'
 ];
-const CDN_HOSTS = ['cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'www.gstatic.com'];
+const CDN_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com', 'www.gstatic.com'];
 
 self.addEventListener('install', event => {
   event.waitUntil(

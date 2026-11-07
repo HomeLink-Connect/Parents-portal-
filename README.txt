@@ -13,4 +13,5 @@ phone's files will still work as a normal page, but it can't be installed.
 Android / Chrome : "Install the Wise Parrot app" button appears on the login screen.
 iPhone / Safari  : the same button shows Share -> Add to Home Screen steps.
 
-When you publish a new version, change VERSION in sw.js (e.g. wp-parent-v2) so phones refresh.
+Themes: Midnight, Pearl White, Ocean, Orchid (palette button, top bar / login screen / Settings).
+When you publish a new version, change VERSION in sw.js (now wp-parent-v2; next: v3) so phones refresh.
