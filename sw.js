@@ -2,7 +2,7 @@
    - App shell is cached so the installed app opens instantly, even offline
    - Fonts / icon font / Firebase SDK are cached after first load
    - Live school data (Firestore) is never touched here; the Firebase SDK keeps its own offline cache */
-const VERSION = 'wp-parent-v3';
+const VERSION = 'wp-parent-v5';
 const SHELL = [
   './',
   './index.html',
