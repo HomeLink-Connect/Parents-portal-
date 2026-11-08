@@ -116,6 +116,7 @@
   --ring-hole:#2a1363; --solid:#24104f; --dot-ring:#2a1363;
 }
 :root {
+  --tx:var(--text); --shadow-c:var(--shadow);
   --blur:blur(18px) saturate(165%);
   --r-xl:28px; --r-lg:22px; --r-md:16px; --r-sm:12px;
   --font-body:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
@@ -199,7 +200,12 @@ select.form-control option { background:var(--solid); color:var(--text); }
 .form-error .ic { margin-top:2px; color:var(--red); }
 
 /* ---------- AUTH ---------- */
-#authScreen { min-height:100vh; min-height:100dvh; display:flex; align-items:flex-start; justify-content:center; padding:calc(env(safe-area-inset-top) + 24px) 18px calc(env(safe-area-inset-bottom) + 28px); overflow-y:auto; }
+#authScreen { position:fixed; inset:0; z-index:9999; display:flex; align-items:flex-start; justify-content:center; overflow-y:auto; padding:calc(env(safe-area-inset-top) + 24px) 18px calc(env(safe-area-inset-bottom) + 28px); background:var(--bg-a); }
+#authScreen::before { content:''; position:fixed; inset:0; z-index:-1; background:
+  radial-gradient(900px 620px at 6% -8%, rgba(var(--ac-rgb), calc(.30 * var(--orb))), transparent 60%),
+  radial-gradient(820px 700px at 100% 6%, rgba(var(--o2-rgb), calc(.22 * var(--orb))), transparent 60%),
+  radial-gradient(900px 800px at 72% 112%, rgba(var(--o3-rgb), calc(.26 * var(--orb))), transparent 60%),
+  linear-gradient(160deg,var(--bg-a) 0%,var(--bg-b) 55%,var(--bg-c) 100%); }
 .auth-box { width:440px; max-width:100%; margin:28px auto 0; padding:26px 30px 26px; border-radius:34px; text-align:center; position:relative; animation:authIn .9s cubic-bezier(.2,.8,.2,1) both; }
 @keyframes authIn { from { opacity:0; transform:translateY(26px) scale(.97); } to { opacity:1; transform:none; } }
 .auth-logo { display:block; width:210px; max-width:62%; height:auto; margin:0 auto 6px; animation:logoGlow 3.2s ease-in-out infinite; filter:var(--logo-f1); }
@@ -274,7 +280,7 @@ select.form-control option { background:var(--solid); color:var(--text); }
 .tab .nav-badge { position:absolute; top:3px; left:calc(50% + 6px); margin:0; min-width:17px; padding:0 5px; font-size:9.5px; }
 
 /* theme picker */
-.theme-pop { position:fixed; z-index:700; width:260px; padding:14px; border-radius:20px; display:none; }
+.theme-pop { position:fixed; z-index:10010; width:260px; padding:14px; border-radius:20px; display:none; }
 .theme-pop.open { display:block; animation:pop .2s ease both; }
 .theme-pop h4 { font-family:var(--font-display); font-size:13px; margin-bottom:10px; }
 .theme-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
@@ -471,7 +477,7 @@ td.score.good { color:var(--green-t); } td.score.ok { color:var(--ac-text); } td
 .alert-info { background:rgba(43,182,232,.13); border:1px solid rgba(43,182,232,.38); color:var(--sky-t); }
 
 /* ---------- MODALS / TOASTS ---------- */
-.modal-overlay { position:fixed; inset:0; z-index:500; display:none; align-items:center; justify-content:center; padding:20px; background:var(--scrim); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
+.modal-overlay { position:fixed; inset:0; z-index:10000; display:none; align-items:center; justify-content:center; padding:20px; background:var(--scrim); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
 .modal-overlay.open { display:flex; }
 .modal { width:700px; max-width:100%; max-height:90vh; max-height:90dvh; overflow-y:auto; border-radius:var(--r-xl); animation:pop .26s cubic-bezier(.2,.9,.3,1.2) both; }
 .modal-lg { width:920px; } .modal-sm { width:440px; }
@@ -488,12 +494,12 @@ td.score.good { color:var(--green-t); } td.score.ok { color:var(--ac-text); } td
 .how-steps li::before { counter-increment:s; content:counter(s); width:26px; height:26px; flex:none; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:12px; color:var(--on-ac); background:linear-gradient(135deg,var(--ac-2),var(--ac)); }
 .lightbox-img { display:block; max-width:100%; max-height:72vh; margin:0 auto; border-radius:16px; }
 
-.toasts { position:fixed; z-index:900; right:18px; top:calc(18px + env(safe-area-inset-top)); display:flex; flex-direction:column; gap:10px; width:360px; max-width:calc(100vw - 36px); pointer-events:none; }
+.toasts { position:fixed; z-index:10020; right:18px; top:calc(18px + env(safe-area-inset-top)); display:flex; flex-direction:column; gap:10px; width:360px; max-width:calc(100vw - 36px); pointer-events:none; }
 .toast { pointer-events:auto; display:flex; align-items:center; gap:12px; padding:13px 16px; border-radius:16px; font-size:13px; font-weight:600; animation:pop .3s ease both; }
 .toast .ic { font-size:18px; } .toast.success .ic { color:var(--green); } .toast.error .ic { color:var(--red); } .toast.info .ic { color:var(--sky); }
 .toast span { flex:1; }
 .toast button { background:var(--f3); border:1px solid var(--line); font-weight:700; font-size:12px; padding:7px 13px; border-radius:10px; cursor:pointer; }
-.net-pill { position:fixed; z-index:880; left:50%; transform:translateX(-50%); top:calc(10px + env(safe-area-inset-top)); display:none; align-items:center; gap:8px; padding:8px 16px; border-radius:99px; font-size:12.5px; font-weight:700; color:#ffe9a8; background:rgba(60,45,5,.88); border:1px solid rgba(216,176,58,.5); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
+.net-pill { position:fixed; z-index:10015; left:50%; transform:translateX(-50%); top:calc(10px + env(safe-area-inset-top)); display:none; align-items:center; gap:8px; padding:8px 16px; border-radius:99px; font-size:12.5px; font-weight:700; color:#ffe9a8; background:rgba(60,45,5,.88); border:1px solid rgba(216,176,58,.5); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
 .net-pill.show { display:inline-flex; }
 
 /* ---------- PRINT DOCUMENTS ---------- */
@@ -576,10 +582,76 @@ td.score.good { color:var(--green-t); } td.score.ok { color:var(--ac-text); } td
   .modal-body { padding:0 !important; }
   .print-doc { box-shadow:none !important; margin:0 auto !important; }
 }
+/* ===== shared: WhatsApp-style chat + attachments ===== */
+:root { --wa-l:72%; --wa-read:#53bdeb; }
+[data-theme="pearl"] { --wa-l:33%; --wa-read:#0a8fd0; }
+.wa { display:flex; flex-direction:column; height:min(72vh,680px); min-height:440px; border-radius:var(--r-lg); overflow:hidden; border:1px solid var(--line); background:var(--sink); position:relative; }
+.wa-head { display:flex; align-items:center; gap:12px; padding:12px 16px; background:linear-gradient(145deg,var(--glass-a),var(--glass-b)); border-bottom:1px solid var(--line-soft); }
+.wa-ava { width:42px; height:42px; border-radius:50%; flex:none; display:grid; place-items:center; font-weight:800; font-size:15px; color:var(--on-ac); background:linear-gradient(135deg,var(--ac-2),var(--ac)); }
+.wa-head b { display:block; font-family:var(--font-display); font-size:14.5px; line-height:1.2; }
+.wa-head small { color:var(--muted); font-size:12px; }
+.wa-back { display:none; width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--f1); color:var(--tx); cursor:pointer; place-items:center; font-size:17px; }
+.wa-body { flex:1; overflow-y:auto; padding:14px 14px 8px; display:flex; flex-direction:column; gap:3px; scrollbar-width:thin;
+  background-image:radial-gradient(rgba(var(--ac-rgb),.07) 1.3px, transparent 1.4px); background-size:22px 22px; overscroll-behavior:contain; }
+.wa-day { align-self:center; margin:12px 0 8px; padding:4px 13px; border-radius:99px; font-size:11.5px; font-weight:700; background:var(--f3); color:var(--muted); }
+.wa-empty { margin:auto; text-align:center; color:var(--muted); font-size:13px; padding:20px; max-width:300px; }
+.wa-empty .ic { display:block; width:34px; height:34px; margin:0 auto 10px; color:var(--ac-text); opacity:.8; }
+.wa-msg { position:relative; max-width:min(80%,520px); padding:7px 11px 5px; border-radius:15px; font-size:14px; line-height:1.45; overflow-wrap:anywhere; margin-top:2px; }
+.wa-msg.me { align-self:flex-end; background:linear-gradient(135deg,rgba(var(--ac-rgb),.36),rgba(var(--ac-rgb),.2)); border:1px solid rgba(var(--ac-rgb),.42); border-bottom-right-radius:4px; }
+.wa-msg.them { align-self:flex-start; background:var(--f2); border:1px solid var(--line); border-bottom-left-radius:4px; }
+.wa-msg.school { border-color:rgba(var(--o2-rgb),.55); background:linear-gradient(135deg,rgba(var(--o2-rgb),.2),rgba(var(--o2-rgb),.08)); }
+.wa-name { font-size:12px; font-weight:800; margin-bottom:2px; display:flex; align-items:center; gap:6px; }
+.wa-name em { font-style:normal; font-size:10px; font-weight:800; padding:1px 7px; border-radius:99px; background:rgba(var(--o2-rgb),.25); color:var(--sky-t); }
+.wa-text { white-space:pre-wrap; }
+.wa-img { display:block; max-width:min(260px,100%); max-height:300px; border-radius:11px; margin:2px 0 3px; cursor:zoom-in; object-fit:cover; }
+.wa-meta { display:flex; justify-content:flex-end; align-items:center; gap:4px; font-size:10.5px; color:var(--dim); margin-top:1px; line-height:1; }
+.wa-tick { display:inline-flex; color:var(--dim); } .wa-tick .ic { width:17px; height:17px; stroke-width:2.2; vertical-align:middle; }
+.wa-tick.read { color:var(--wa-read); } .wa-tick.pending { opacity:.7; }
+.wa-del { position:absolute; top:4px; right:4px; width:24px; height:24px; border-radius:50%; border:none; background:rgba(255,100,100,.2); color:var(--red-t); cursor:pointer; display:none; place-items:center; }
+.wa-msg:hover .wa-del { display:grid; }
+.wa-audio { display:flex; align-items:center; gap:10px; min-width:210px; padding:3px 0; }
+.wa-audio button { width:38px; height:38px; border-radius:50%; border:none; flex:none; display:grid; place-items:center; cursor:pointer; color:var(--on-ac); background:linear-gradient(135deg,var(--ac-2),var(--ac)); font-size:17px; }
+.wa-prog { flex:1; height:5px; border-radius:99px; background:var(--track); overflow:hidden; }
+.wa-prog i { display:block; height:100%; width:0; background:var(--ac); }
+.wa-time { font-size:11px; color:var(--muted); min-width:34px; text-align:right; font-variant-numeric:tabular-nums; }
+.wa-compose { position:relative; display:flex; align-items:flex-end; gap:8px; padding:10px 12px calc(10px + env(safe-area-inset-bottom)*0); border-top:1px solid var(--line-soft); background:linear-gradient(145deg,var(--glass-a),var(--glass-b)); }
+.wa-input { flex:1; min-height:44px; max-height:130px; resize:none; padding:11px 16px; border-radius:22px; color:var(--tx); font-family:var(--font-body); font-size:14px; line-height:1.4; outline:none; background:var(--f2); border:1px solid var(--line); }
+.wa-input:focus { border-color:var(--ac); box-shadow:0 0 0 3px rgba(var(--ac-rgb),.18); }
+.wa-input::placeholder { color:var(--dim); }
+.wa-btn { width:44px; height:44px; border-radius:50%; flex:none; display:grid; place-items:center; cursor:pointer; border:1px solid var(--line); background:var(--f1); color:var(--muted); font-size:19px; transition:background .2s, color .2s, transform .15s; }
+.wa-btn:hover { background:var(--f3); color:var(--tx); }
+.wa-btn.send { border:none; color:var(--on-ac); background:linear-gradient(135deg,var(--ac-2),var(--ac) 55%,var(--ac-3)); box-shadow:0 6px 16px rgba(var(--ac-rgb),.35); }
+.wa-btn.send:active { transform:scale(.94); }
+.wa-btn[disabled] { opacity:.5; }
+.wa-rec { display:none; flex:1; align-items:center; gap:12px; min-height:44px; padding:0 14px; border-radius:22px; background:rgba(255,100,100,.12); border:1px solid rgba(255,100,100,.4); color:var(--red-t); font-weight:700; font-size:13px; }
+.wa-rec i { width:10px; height:10px; border-radius:50%; background:#ff4d4d; animation:waPulse 1s infinite; }
+@keyframes waPulse { 50% { opacity:.25; } }
+.wa-rec button { margin-left:auto; border:none; background:none; color:var(--red-t); cursor:pointer; font-size:18px; display:grid; place-items:center; }
+.wa-compose.recording .wa-input, .wa-compose.recording [data-wa="emoji"], .wa-compose.recording [data-wa="attach"] { display:none; }
+.wa-compose.recording .wa-rec { display:flex; }
+.wa-emoji { position:absolute; left:10px; bottom:calc(100% + 8px); width:min(340px,calc(100% - 20px)); max-height:250px; overflow-y:auto; padding:10px; border-radius:18px; z-index:5; background:var(--solid); border:1px solid var(--line); box-shadow:var(--shadow-c); }
+.wa-emoji h6 { font-size:11px; font-weight:800; color:var(--dim); margin:6px 4px 4px; }
+.wa-emoji div { display:grid; grid-template-columns:repeat(8,1fr); gap:2px; }
+.wa-emoji button { border:none; background:none; font-size:22px; line-height:1; padding:6px 0; border-radius:9px; cursor:pointer; }
+.wa-emoji button:hover { background:var(--f3); }
+.att-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.att-chip { display:inline-flex; align-items:center; gap:9px; padding:9px 14px; border-radius:13px; border:1px solid var(--line); background:var(--f1); color:var(--tx); font-size:12.5px; font-weight:700; cursor:pointer; max-width:100%; transition:background .2s, border-color .2s; }
+.att-chip:hover { background:var(--f3); border-color:rgba(var(--ac-rgb),.5); }
+.att-chip .ic { color:var(--ac-text); font-size:18px; }
+.att-chip small { color:var(--dim); font-weight:600; }
+.att-chip span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:220px; }
+.att-photos { display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:8px; margin-top:10px; }
+.att-photos button { padding:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; aspect-ratio:1; cursor:zoom-in; background:var(--f1); }
+.att-photos img { width:100%; height:100%; object-fit:cover; display:block; }
+.file-pick { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+.file-pick .att-chip { cursor:default; } .file-pick .att-chip button { border:none; background:none; color:var(--red-t); cursor:pointer; display:grid; place-items:center; }
+.img-viewer { max-width:100%; max-height:78vh; display:block; margin:0 auto; border-radius:14px; }
+@media (max-width:900px) { .wa { height:calc(100dvh - 250px); min-height:380px; } .wa-msg { max-width:86%; } .wa-back { display:grid; } }
+
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></symbol><symbol id="i-banknote" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2" /> <circle cx="12" cy="12" r="2" /> <path d="M6 12h.01M18 12h.01" /></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></symbol><symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></symbol><symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6" /> <path d="M15 6v6" /> <path d="M2 12h19.6" /> <path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" /> <circle cx="7" cy="18" r="2" /> <path d="M9 18h5" /> <circle cx="16" cy="18" r="2" /></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /></symbol><symbol id="i-calendar-check" viewBox="0 0 24 24"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="m9 15 2 2 4-4" /></symbol><symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="M8 13h.01" /> <path d="M12 13h.01" /> <path d="M16 13h.01" /> <path d="M8 17h.01" /> <path d="M12 17h.01" /> <path d="M16 17h.01" /></symbol><symbol id="i-calendar-plus" viewBox="0 0 24 24"><path d="M16 18h6" /> <path d="M16 2v3" /> <path d="M19 15v6" /> <path d="M21 11.5V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h8.3" /> <path d="M3 9h18" /> <path d="M8 2v3" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="M18 17V9" /> <path d="M13 17V5" /> <path d="M8 17v-3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></symbol><symbol id="i-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <path d="m7 10 5 5 5-5" /></symbol><symbol id="i-ellipsis-vertical" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1" /> <circle cx="12" cy="5" r="1" /> <circle cx="12" cy="19" r="1" /></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /> <circle cx="12" cy="12" r="3" /></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" /> <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" /> <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" /> <path d="m2 2 20 20" /></symbol><symbol id="i-file-text" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></symbol><symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol><symbol id="i-id-card" viewBox="0 0 24 24"><path d="M13 19a4 4 0 00-8 0" /> <path d="M16 10h2" /> <path d="M16 14h2" /> <circle cx="9" cy="12" r="3" /> <rect x="2" y="5" width="20" height="14" rx="2" /></symbol><symbol id="i-images" viewBox="0 0 24 24"><path d="m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16" /> <path d="M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2" /> <circle cx="13" cy="7" r="1" fill="currentColor" /> <rect x="8" y="2" width="14" height="14" rx="2" /></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M3 5h.01" /> <path d="M3 12h.01" /> <path d="M3 19h.01" /> <path d="M8 5h13" /> <path d="M8 12h13" /> <path d="M8 19h13" /></symbol><symbol id="i-loader-circle" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol><symbol id="i-log-in" viewBox="0 0 24 24"><path d="m10 17 5-5-5-5" /> <path d="M15 12H3" /> <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /></symbol><symbol id="i-log-out" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></symbol><symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" /> <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14" /> <path d="M8 6v8" /></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></symbol><symbol id="i-message-circle" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></symbol><symbol id="i-message-circle-more" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /> <path d="M8 12h.01" /> <path d="M12 12h.01" /> <path d="M16 12h.01" /></symbol><symbol id="i-messages-square" viewBox="0 0 24 24"><path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /> <path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1" /></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /> <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /> <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /> <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /> <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></symbol><symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /> <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" /> <rect x="6" y="14" width="12" height="8" rx="1" /></symbol><symbol id="i-receipt" viewBox="0 0 24 24"><path d="M12 17V7" /> <path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /> <path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /></symbol><symbol id="i-reply" viewBox="0 0 24 24"><path d="M20 18v-2a4 4 0 0 0-4-4H4" /> <path d="m9 17-5-5 5-5" /></symbol><symbol id="i-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /> <path d="m21.854 2.147-10.94 10.939" /></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></symbol><symbol id="i-share" viewBox="0 0 24 24"><path d="M12 2v13" /> <path d="m16 6-4-4-4 4" /> <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /></symbol><symbol id="i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /> <path d="M12 18h.01" /></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></symbol><symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></symbol><symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" /></symbol><symbol id="i-user-plus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <line x1="19" x2="19" y1="8" y2="14" /> <line x1="22" x2="16" y1="11" y2="11" /></symbol><symbol id="i-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <path d="M16 3.128a4 4 0 0 1 0 7.744" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <circle cx="9" cy="7" r="4" /></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /> <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></symbol><symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01" /> <path d="M2 8.82a15 15 0 0 1 20 0" /> <path d="M5 12.859a10 10 0 0 1 14 0" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></symbol><symbol id="i-banknote" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2" /> <circle cx="12" cy="12" r="2" /> <path d="M6 12h.01M18 12h.01" /></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></symbol><symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></symbol><symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6" /> <path d="M15 6v6" /> <path d="M2 12h19.6" /> <path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" /> <circle cx="7" cy="18" r="2" /> <path d="M9 18h5" /> <circle cx="16" cy="18" r="2" /></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /></symbol><symbol id="i-calendar-check" viewBox="0 0 24 24"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="m9 15 2 2 4-4" /></symbol><symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v3" /> <path d="M16 2v3" /> <rect x="3" y="3" width="18" height="18" rx="2" /> <path d="M3 9h18" /> <path d="M8 13h.01" /> <path d="M12 13h.01" /> <path d="M16 13h.01" /> <path d="M8 17h.01" /> <path d="M12 17h.01" /> <path d="M16 17h.01" /></symbol><symbol id="i-calendar-plus" viewBox="0 0 24 24"><path d="M16 18h6" /> <path d="M16 2v3" /> <path d="M19 15v6" /> <path d="M21 11.5V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h8.3" /> <path d="M3 9h18" /> <path d="M8 2v3" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="M18 17V9" /> <path d="M13 17V5" /> <path d="M8 17v-3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></symbol><symbol id="i-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="m16 9-5.5 5.5L8 12" /></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /> <path d="m7 10 5 5 5-5" /></symbol><symbol id="i-ellipsis-vertical" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1" /> <circle cx="12" cy="5" r="1" /> <circle cx="12" cy="19" r="1" /></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /> <circle cx="12" cy="12" r="3" /></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" /> <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" /> <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" /> <path d="m2 2 20 20" /></symbol><symbol id="i-file-text" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></symbol><symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol><symbol id="i-id-card" viewBox="0 0 24 24"><path d="M13 19a4 4 0 00-8 0" /> <path d="M16 10h2" /> <path d="M16 14h2" /> <circle cx="9" cy="12" r="3" /> <rect x="2" y="5" width="20" height="14" rx="2" /></symbol><symbol id="i-images" viewBox="0 0 24 24"><path d="m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16" /> <path d="M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2" /> <circle cx="13" cy="7" r="1" fill="currentColor" /> <rect x="8" y="2" width="14" height="14" rx="2" /></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></symbol><symbol id="i-list" viewBox="0 0 24 24"><path d="M3 5h.01" /> <path d="M3 12h.01" /> <path d="M3 19h.01" /> <path d="M8 5h13" /> <path d="M8 12h13" /> <path d="M8 19h13" /></symbol><symbol id="i-loader-circle" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol><symbol id="i-log-in" viewBox="0 0 24 24"><path d="m10 17 5-5-5-5" /> <path d="M15 12H3" /> <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /></symbol><symbol id="i-log-out" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></symbol><symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" /> <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14" /> <path d="M8 6v8" /></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></symbol><symbol id="i-message-circle" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></symbol><symbol id="i-message-circle-more" viewBox="0 0 24 24"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /> <path d="M8 12h.01" /> <path d="M12 12h.01" /> <path d="M16 12h.01" /></symbol><symbol id="i-messages-square" viewBox="0 0 24 24"><path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" /> <path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1" /></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /> <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /> <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /> <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /> <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></symbol><symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /> <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" /> <rect x="6" y="14" width="12" height="8" rx="1" /></symbol><symbol id="i-receipt" viewBox="0 0 24 24"><path d="M12 17V7" /> <path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /> <path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /></symbol><symbol id="i-reply" viewBox="0 0 24 24"><path d="M20 18v-2a4 4 0 0 0-4-4H4" /> <path d="m9 17-5-5 5-5" /></symbol><symbol id="i-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /> <path d="m21.854 2.147-10.94 10.939" /></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></symbol><symbol id="i-share" viewBox="0 0 24 24"><path d="M12 2v13" /> <path d="m16 6-4-4-4 4" /> <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /></symbol><symbol id="i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /> <path d="M12 18h.01" /></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></symbol><symbol id="i-trending-up" viewBox="0 0 24 24"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></symbol><symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" /></symbol><symbol id="i-user-plus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <line x1="19" x2="19" y1="8" y2="14" /> <line x1="22" x2="16" y1="11" y2="11" /></symbol><symbol id="i-user-round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <path d="M16 3.128a4 4 0 0 1 0 7.744" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <circle cx="9" cy="7" r="4" /></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /> <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></symbol><symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01" /> <path d="M2 8.82a15 15 0 0 1 20 0" /> <path d="M5 12.859a10 10 0 0 1 14 0" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></symbol><symbol id="i-check-check" viewBox="0 0 24 24"><path d="M18 6 7 17l-5-5" />  <path d="m22 10-7.5 7.5L13 16" /></symbol><symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 19v3" />  <path d="M19 10v2a7 7 0 0 1-14 0v-2" />  <rect x="9" y="2" width="6" height="13" rx="3" /></symbol><symbol id="i-smile" viewBox="0 0 24 24"><path d="M15 10V9" />  <path d="M16.472 15a6 6 0 01-8.943 0" />  <path d="M9 10V9" />  <circle cx="12" cy="12" r="10" /></symbol><symbol id="i-paperclip" viewBox="0 0 24 24"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551" /></symbol><symbol id="i-play" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></symbol><symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="3" width="5" height="18" rx="1" />  <rect x="5" y="3" width="5" height="18" rx="1" /></symbol><symbol id="i-image-plus" viewBox="0 0 24 24"><path d="M16 5h6" />  <path d="M19 2v6" />  <path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5" />  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />  <circle cx="9" cy="9" r="2" /></symbol><symbol id="i-trash-2" viewBox="0 0 24 24"><path d="M10 11v6" />  <path d="M14 11v6" />  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />  <path d="M3 6h18" />  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></symbol><symbol id="i-graduation-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />  <path d="M22 10v6" />  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></symbol><symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />  <circle cx="12" cy="10" r="3" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" />  <path d="M12 6v6l4 2" /></symbol><symbol id="i-circle-stop" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" />  <rect x="9" y="9" width="6" height="6" rx="1" /></symbol></defs></svg>
 <div class="aurora" aria-hidden="true"></div>
 <div class="net-pill" id="netPill"><svg class="ic"><use href="#i-wifi"/></svg> You're offline — showing your last synced information</div>
 <div class="toasts" id="toasts" aria-live="polite"></div>
@@ -674,7 +746,7 @@ td.score.good { color:var(--green-t); } td.score.ok { color:var(--ac-text); } td
 
       <div class="nav-group">Community</div>
       <button class="nav-item" data-page="messages"><svg class="ic"><use href="#i-messages-square"/></svg> Message School <span class="nav-badge zero" id="msgBadge">0</span></button>
-      <button class="nav-item" data-page="forum"><svg class="ic"><use href="#i-users"/></svg> Parents Community</button>
+      <button class="nav-item" data-page="forum"><svg class="ic"><use href="#i-users"/></svg> Parents Community <span class="nav-badge zero" id="forumBadge">0</span></button>
       <button class="nav-item" data-page="feedback"><svg class="ic"><use href="#i-message-circle-more"/></svg> Feedback &amp; Complaints</button>
 
       <div class="nav-group">Account</div>
@@ -845,29 +917,25 @@ td.score.good { color:var(--green-t); } td.score.ok { color:var(--ac-text); } td
         </div>
       </section>
 
-      <!-- ===== MESSAGE SCHOOL ===== -->
+      <!-- ===== MESSAGE SCHOOL (WhatsApp style) ===== -->
       <section class="page" id="page-messages">
-        <div class="card">
-          <div class="card-header"><div class="card-title"><svg class="ic"><use href="#i-messages-square"/></svg> Message the School</div></div>
-          <div class="card-note">Send a message to your child's teacher or the school office — e.g. reporting sickness, requesting a meeting, or asking about homework.</div>
-          <div class="chat" id="messageThread"></div>
-          <div class="composer">
-            <input class="form-control" id="parentMsgInput" placeholder="Type your message..." autocomplete="off">
-            <button class="btn btn-primary btn-icon" onclick="sendParentMessage()" aria-label="Send message"><svg class="ic"><use href="#i-send"/></svg></button>
+        <div class="card" style="padding:14px;">
+          <div class="wa" id="msgChat">
+            <div class="wa-head"><div class="wa-ava"><svg class="ic"><use href="#i-graduation-cap"/></svg></div><div style="min-width:0;"><b>Wise Parrot Junior School</b><small id="msgSub">Message your child's teacher or the school office</small></div></div>
+            <div class="wa-body" id="messageThread"></div>
+            <div id="msgCompose"></div>
           </div>
         </div>
       </section>
 
-      <!-- ===== PARENTS COMMUNITY ===== -->
+      <!-- ===== PARENTS COMMUNITY (WhatsApp style group chat) ===== -->
       <section class="page" id="page-forum">
-        <div class="card">
-          <div class="card-header"><div class="card-title"><svg class="ic"><use href="#i-users"/></svg> Parents Community</div></div>
-          <div class="card-note">A space for Wise Parrot parents to connect, share, and support each other. Be kind — this is visible to all parents.</div>
-          <div class="composer" style="margin-bottom:20px;">
-            <input class="form-control" id="forumPostInput" placeholder="Share something with other parents..." autocomplete="off">
-            <button class="btn btn-primary" onclick="postToForum()"><svg class="ic"><use href="#i-send"/></svg> Post</button>
+        <div class="card" style="padding:14px;">
+          <div class="wa" id="ccChat">
+            <div class="wa-head"><div class="wa-ava"><svg class="ic"><use href="#i-users"/></svg></div><div style="min-width:0;"><b>Wise Parrot Parents</b><small id="ccSub">Group chat for all parents</small></div></div>
+            <div class="wa-body" id="forumList"></div>
+            <div id="forumCompose"></div>
           </div>
-          <div id="forumList"><div class="empty"><svg class="ic"><use href="#i-users"/></svg>No posts yet — be the first to say hello!</div></div>
         </div>
       </section>
 
@@ -979,7 +1047,7 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const docKey = x => x._docId || x.id;
 
-const DB = { announcements:[], homework:[], events:[], gallery:[], messages:[], feedback:[], fees:[], results:[], attendance:[] };
+const DB = { transport:[], announcements:[], homework:[], events:[], gallery:[], messages:[], feedback:[], fees:[], results:[], attendance:[] };
 const childrenData = {}; // studentId -> student doc
 let currentParent = null;
 let currentChildId = null;
@@ -987,9 +1055,9 @@ let pendingChild = null;
 let pendingPhone = null;
 let pendingExistingParent = null;
 let _unsubs = [];
-let _forumPosts = [];
+let _chatDocs = [];
 let _gallerySorted = [];
-const _markedRead = new Set();
+const _markedRead = new Set(), _seenMarked = new Set();
 
 const PAGES = {
   dashboard:'Dashboard', attendance:'Attendance', results:'Results', fees:'Fees', homework:'Homework',
@@ -1099,26 +1167,55 @@ function switchAuthTab(tab) {
 // ============================================================
 // AUTH: REGISTRATION
 // ============================================================
+// ---- finding a learner: tolerant of spelling/spacing/case differences in the saved record ----
+const withTimeout = (p, ms = 15000) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error('timeout'), { code: 'timeout' })), ms))]);
+const normName = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const nameTokens = s => normName(s).split(' ').filter(Boolean);
+function namesMatch(typed, st) {
+  const T = nameTokens(typed);
+  if (T.length < 2) return false;                                   // first name + surname needed
+  const first = new Set([...nameTokens(st.fname), ...nameTokens(st.firstName), ...nameTokens(st.firstNames)]);
+  const last  = new Set([...nameTokens(st.lname), ...nameTokens(st.lastName), ...nameTokens(st.surname)]);
+  const extra = new Set([...nameTokens(st.middleName), ...nameTokens(st.name), ...nameTokens(st.fullName), ...nameTokens(st.studentName)]);
+  const all = new Set([...first, ...last, ...extra]);
+  const hitsFirst = !first.size || T.some(t => first.has(t));
+  const hitsLast  = !last.size  || T.some(t => last.has(t));
+  const typedInRecord = T.every(t => all.has(t));                   // any order; middle name left out
+  const recordInTyped = [...first, ...last].every(t => T.includes(t)); // extra middle name typed
+  return hitsFirst && hitsLast && (typedInRecord || recordInTyped);
+}
+async function findStudent(raw) {
+  const { doc, getDoc, collection, query, where, getDocs } = window._firestoreFns, db = window._firestoreDB;
+  const t = String(raw || '').trim().replace(/\s+/g, '');
+  const norm = admDocId(t), disp = admShow({ id: norm });
+  const dash = t.replace(/[\/\\]/g, '-');
+  const ids = [...new Set([norm, dash, dash.toUpperCase(), dash.toLowerCase(), t])].filter(x => x && !x.includes('/'));
+  const snaps = await Promise.all(ids.map(id => getDoc(doc(db, 'wp_students', id)).catch(() => null)));
+  const hit = snaps.find(sn => sn && sn.exists());
+  if (hit) { const d = hit.data(); return { ...d, id: hit.id, _data_id: d.id }; }
+  const vals = [...new Set([disp, norm, t, t.toUpperCase(), dash])];
+  const qs = await Promise.all(['studentId', 'id'].flatMap(f => vals.map(v => getDocs(query(collection(db, 'wp_students'), where(f, '==', v))).catch(() => null))));
+  const q = qs.find(r => r && !r.empty);
+  if (q) { const d = q.docs[0]; return { ...d.data(), id: d.id, _data_id: d.data().id }; }
+  return null;
+}
 async function verifyChildForRegistration() {
-  const studentId = admDocId($('reg-studentId').value);
-  const childName = $('reg-childName').value.trim().toLowerCase();
-  if (!studentId || !childName) return showFieldError('verifyError', 'Please enter both the admission number and full name.');
+  const rawId = $('reg-studentId').value.trim();
+  const typedName = $('reg-childName').value.trim();
+  if (!rawId || !typedName) return showFieldError('verifyError', 'Please enter both the admission number and full name.');
   if (!window._firestoreDB) return showFieldError('verifyError', 'Connection error. Please try again shortly.');
   setBusy('verifyBtn', true, 'Checking…');
   try {
-    const { doc, getDoc } = window._firestoreFns;
-    const snap = await getDoc(doc(window._firestoreDB, 'wp_students', studentId));
-    if (!snap.exists()) return showFieldError('verifyError', "We couldn't find a learner with that admission number. Check it against your acceptance letter (e.g. G42026/001G).");
-    const student = snap.data();
-    const fullName = `${student.fname||''} ${student.lname||''}`.trim().toLowerCase();
-    if (fullName !== childName) return showFieldError('verifyError', "The name doesn't match our records for that admission number.");
-    pendingChild = { id: studentId, ...student };
-    $('verifiedChildName').textContent = `${student.fname} ${student.lname} · ${admShow(pendingChild)}`;
+    const student = await withTimeout(findStudent(rawId));
+    if (!student) return showFieldError('verifyError', "We couldn't find a learner with that admission number. Check it against your acceptance letter (e.g. G42026/001G) or ask the school office.");
+    if (!namesMatch(typedName, student)) return showFieldError('verifyError', "The admission number was found, but the name doesn't match. Type the child's first name and surname as on the acceptance letter.");
+    pendingChild = student;
+    $('verifiedChildName').textContent = `${[student.fname, student.lname].filter(Boolean).join(' ') || typedName} · ${admShow(pendingChild)}`;
     $('verifiedChildGrade').textContent = student.grade || '';
     showStep('step-phone');
   } catch(e) {
     console.warn(e);
-    showFieldError('verifyError', 'Something went wrong. Please try again.');
+    showFieldError('verifyError', e && e.code === 'timeout' ? 'The connection is slow. Please try again.' : `We couldn't check right now (${(e && (e.code || e.message)) || 'network'}). Please check your internet and try again.`);
   } finally { setBusy('verifyBtn', false); }
 }
 async function checkPhoneForRegistration() {
@@ -1207,7 +1304,7 @@ function confirmParentLogout() {
     _unsubs.forEach(u => { try { u(); } catch(e) {} }); _unsubs = [];
     Object.keys(DB).forEach(k => DB[k] = []);
     Object.keys(childrenData).forEach(k => delete childrenData[k]);
-    _forumPosts = []; _markedRead.clear();
+    _chatDocs = []; _markedRead.clear(); _seenMarked.clear();
     currentParent = null; currentChildId = null;
     closeSidebar();
     $('app').style.display = 'none';
@@ -1233,11 +1330,15 @@ async function initParentApp() {
 }
 async function loadChildren() {
   if (!window._firestoreDB || !currentParent.studentIds) return;
-  const { doc, getDoc } = window._firestoreFns;
+  const { doc, getDoc, collection, query, where, getDocs } = window._firestoreFns;
   for (const sid of currentParent.studentIds) {
     try {
       const snap = await getDoc(doc(window._firestoreDB, 'wp_students', sid));
-      if (snap.exists()) childrenData[sid] = { id: sid, ...snap.data() };
+      if (snap.exists()) { childrenData[sid] = { ...snap.data(), id: sid }; continue; }
+      for (const f of ['id', 'studentId']) {
+        const qs = await getDocs(query(collection(window._firestoreDB, 'wp_students'), where(f, '==', sid)));
+        if (!qs.empty) { childrenData[sid] = { ...qs.docs[0].data(), id: sid }; break; }
+      }
     } catch(e) { console.warn(e); }
   }
 }
@@ -1291,7 +1392,7 @@ function refreshPageData(page) {
 // FIREBASE LIVE FEEDS
 // ============================================================
 function listen(ref, cb) {
-  try { _unsubs.push(window._firestoreFns.onSnapshot(ref, cb, err => console.warn('feed error:', err))); }
+  try { _unsubs.push(window._firestoreFns.onSnapshot(ref, { includeMetadataChanges: true }, cb, err => console.warn('feed error:', err))); }
   catch(e) { console.warn('feed error:', e); }
 }
 function startLiveFeeds() {
@@ -1308,10 +1409,11 @@ function startLiveFeeds() {
   simpleFeed('wp_homework', 'homework');
   simpleFeed('wp_events', 'events');
   simpleFeed('wp_gallery', 'gallery');
+  simpleFeed('wp_transport', 'transport');
 
   listen(col('wp_messages'), snap => {
     const arr = [];
-    snap.forEach(d => { const m = d.data(); if (studentIds.includes(m.studentId)) arr.push({ ...m, _docId: d.id }); });
+    snap.forEach(d => { const m = d.data(); if (studentIds.includes(m.studentId)) arr.push({ ...m, _docId: d.id, _pending: !!(d.metadata && d.metadata.hasPendingWrites) }); });
     arr.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
     DB.messages = arr; onAnyDataChange();
   });
@@ -1371,6 +1473,8 @@ function updateBadges() {
   setBadge('annBadge', myGradeRelevantAnnouncements().length);
   const unread = DB.messages.filter(m => m.from === 'school' && !m.readByParent).length;
   setBadge('msgBadge', unread); setBadge('msgBadge2', unread);
+  const me = currentParent && currentParent.id;
+  setBadge('forumBadge', _chatDocs.filter(m => m.kind === 'chat' && m.senderId !== me && !(m.seenBy || []).includes(me)).length);
 }
 
 // ============================================================
@@ -1611,13 +1715,15 @@ function renderHomeworkPage() {
   if (!child) { el.innerHTML = ''; return; }
   const myHw = DB.homework.filter(h => h.grade === child.grade).sort((a,b) => new Date(b.postedAt) - new Date(a.postedAt));
   el.innerHTML = myHw.length ? myHw.map(h => {
-    const done = !!h[`done_${currentChildId}`];
+    const done = !!h[`done_${currentChildId}`], id = docKey(h);
+    const overdue = !done && h.due && new Date(h.due + 'T23:59:59') < new Date();
     return `<div class="hw-item ${done?'is-done':''}">
-      <button class="hw-check ${done?'done':''}" data-hw="${esc(docKey(h))}" data-done="${done?1:0}" aria-label="${done?'Mark as not done':'Mark as done'}" aria-pressed="${done}">${done?'<svg class="ic"><use href="#i-check"/></svg>':''}</button>
+      <button class="hw-check ${done?'done':''}" data-hw="${esc(id)}" data-done="${done?1:0}" aria-label="${done?'Mark as not done':'Mark as done'}" aria-pressed="${done}">${done?ic('check'):''}</button>
       <div class="li-body">
-        <div class="hw-title">${esc(h.title)} <span class="badge badge-sky">${esc(h.subject)}</span></div>
-        <div class="li-text">${esc(h.desc||'')}</div>
-        <div class="li-meta">${esc(h.type)} · Due ${h.due?fmtDate(h.due):'N/A'} · Posted ${fmtDate(h.postedAt)}</div>
+        <div class="hw-title">${esc(h.title)} <span class="badge badge-sky">${esc(h.subject)}</span>${overdue ? '<span class="badge badge-red">Overdue</span>' : ''}</div>
+        ${h.desc ? `<div class="li-text">${esc(h.desc)}</div>` : ''}
+        ${attachmentsHTML({ ...h, id })}
+        <div class="li-meta">${esc(h.type || 'Homework')} · Due ${h.due?fmtDate(h.due):'N/A'} · Posted ${fmtDate(h.postedAt)}${h.teacher ? ' · ' + esc(h.teacher) : ''}</div>
       </div>
     </div>`;
   }).join('') : emptyBox('book-open', 'No homework posted yet');
@@ -1650,7 +1756,7 @@ function renderEventsFullList() {
       <div class="li-body">
         <div class="li-title">${esc(e.title)} <span class="badge badge-gold">${esc(e.type)}</span></div>
         <div class="li-text">${esc(e.desc||'')}</div>
-        <div class="li-meta">${fmtDate(e.date)}</div>
+        <div class="li-meta">${fmtDate(e.date)}${e.time ? ' · ' + esc(e.time) : ''}${e.venue ? ' · ' + esc(e.venue) : ''}</div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
       <button class="btn btn-ghost btn-sm" data-ics="${esc(docKey(e))}" aria-label="Add ${esc(e.title)} to my calendar">${ic('calendar-plus')} <span class="hide-xs">Add to calendar</span></button>
@@ -1707,102 +1813,100 @@ function openLightbox(i) {
 // ============================================================
 // TRANSPORT
 // ============================================================
-async function renderTransportInfo() {
-  const el = $('transportInfo');
-  if (!window._firestoreDB) return;
-  try {
-    const { collection, getDocs } = window._firestoreFns;
-    const snap = await getDocs(collection(window._firestoreDB, 'wp_transport'));
-    if (snap.empty) { el.innerHTML = emptyBox('bus', 'Transport information is not available yet. Please contact the school office for bus arrangements.'); return; }
-    const rows = []; snap.forEach(d => rows.push(d.data()));
-    el.innerHTML = rows.map(t => `
-      <div class="t-row">
-        <span class="stat-icon gold"><svg class="ic"><use href="#i-bus"/></svg></span>
-        <div class="li-body"><div class="li-title">Bus ${esc(t.busNumber||'N/A')}</div><div class="li-meta" style="margin-top:2px;">Driver: ${esc(t.driver||'N/A')} · Route: ${esc(t.route||'N/A')}</div></div>
-        <span class="badge badge-gold">Pickup ${esc(t.pickupTime||'N/A')}</span>
-      </div>`).join('');
-  } catch(e) { console.warn(e); }
+function renderTransportInfo() {
+  const el = $('transportInfo'), all = DB.transport, child = childrenData[currentChildId];
+  if (!all.length) { el.innerHTML = emptyBox('bus', 'Transport information is not available yet. Please contact the school office for bus arrangements.'); return; }
+  const mine = all.filter(t => (t.studentIds || []).includes(currentChildId));
+  const rows = (mine.length ? mine : all).slice().sort((a,b) => String(a.busNumber).localeCompare(String(b.busNumber), undefined, { numeric:true }));
+  const note = mine.length
+    ? `<div class="alert alert-success">${ic('circle-check')} ${esc(child ? child.fname : 'Your child')} travels on ${mine.map(t => esc(t.busNumber)).join(' and ')}.</div>`
+    : `<div class="alert alert-info">${ic('info')} ${esc(child ? child.fname : 'Your child')} isn't assigned to a bus yet — showing all school routes. Contact the school office to book a seat.</div>`;
+  el.innerHTML = note + rows.map(t => `
+    <div class="t-row" style="align-items:flex-start;">
+      <span class="stat-icon gold">${ic('bus')}</span>
+      <div class="li-body">
+        <div class="li-title">${esc(t.busNumber || 'Bus')} <span style="font-weight:500;color:var(--muted);">— ${esc(t.route || '')}</span></div>
+        <div class="li-meta" style="margin-top:3px;">${t.driver ? 'Driver: ' + esc(t.driver) : ''}${t.driverPhone ? ` · <a href="tel:${esc(String(t.driverPhone).replace(/[^+\d]/g,''))}" style="color:var(--ac-text);font-weight:700;">${ic('phone')} ${esc(t.driverPhone)}</a>` : ''}</div>
+        ${(t.stops || []).length ? `<div class="att-list" style="margin-top:8px;">${t.stops.map(s => `<span class="badge badge-sky">${ic('map-pin')} ${esc(s)}</span>`).join('')}</div>` : ''}
+      </div>
+      <div style="display:grid;gap:6px;justify-items:end;">${t.pickupTime ? `<span class="badge badge-gold">${ic('clock')} Pickup ${esc(t.pickupTime)}</span>` : ''}${t.dropoffTime ? `<span class="badge badge-green">${ic('clock')} Drop-off ${esc(t.dropoffTime)}</span>` : ''}</div>
+    </div>`).join('');
 }
 
 // ============================================================
 // MESSAGE THE SCHOOL
 // ============================================================
+const byTs = (a, b) => new Date(a.timestamp || 0) - new Date(b.timestamp || 0);
 function renderMessageThread() {
-  const el = $('messageThread');
-  const myMsgs = DB.messages.filter(m => m.studentId === currentChildId).sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
-  el.innerHTML = myMsgs.length ? myMsgs.map(m => `
-    <div class="bubble ${m.from==='parent'?'me':'them'}"><small>${m.from==='parent'?'You':'School'} · ${fmtDateTime(m.timestamp)}</small>${esc(m.body)}</div>`).join('')
-    : emptyBox('messages-square', 'No messages yet. Say hello!');
-  el.scrollTop = el.scrollHeight;
+  const el = $('messageThread'); if (!el) return;
+  const myMsgs = DB.messages.filter(m => m.studentId === currentChildId).sort(byTs);
+  const child = childrenData[currentChildId];
+  $('msgSub').textContent = child ? `About ${child.fname} · ${child.grade}` : "Message your child's teacher or the school office";
+  waRenderThread(el, myMsgs.map(m => ({ id: docKey(m), mine: m.from === 'parent', school: m.from === 'school', name: m.from === 'school' ? 'Wise Parrot' : '', body: m.body, image: m.image, audio: m.audio, ts: m.timestamp,
+    tick: m.from === 'parent' ? (m._pending ? 'pending' : m.readBySchool ? 'read' : 'sent') : '' })), 'No messages yet. Say hello to the school!');
   myMsgs.filter(m => m.from === 'school' && !m.readByParent && !_markedRead.has(docKey(m))).forEach(m => {
     _markedRead.add(docKey(m));
     updateInFirebase('wp_messages', docKey(m), { readByParent: true });
   });
 }
-function sendParentMessage() {
-  const input = $('parentMsgInput');
-  const body = input.value.trim();
-  if (!body || !currentChildId) return;
-  const child = childrenData[currentChildId];
-  const id = genID('MSG');
-  syncToFirebase('messages', id, { id, studentId: currentChildId, studentName: child ? `${child.fname} ${child.lname}` : '', from: 'parent', body, timestamp: new Date().toISOString(), read: false });
-  input.value = '';
+function sendSchoolMessage(payload) {
+  if (!currentChildId) { toast('Add a learner to your account first.', 'error'); return; }
+  const child = childrenData[currentChildId], id = genID('MSG');
+  syncToFirebase('messages', id, { id, studentId: currentChildId, studentName: child ? `${child.fname} ${child.lname}` : '', parentId: currentParent.id, parentName: currentParent.displayName, from: 'parent', timestamp: new Date().toISOString(), read: false, readBySchool: false, ...payload });
 }
 
 // ============================================================
-// PARENTS COMMUNITY FORUM
+// PARENTS COMMUNITY — WhatsApp-style group chat (stored in wp_parent_forum)
 // ============================================================
 function loadForum() {
   if (!window._firestoreDB) return;
   const { collection } = window._firestoreFns;
   listen(collection(window._firestoreDB, 'wp_parent_forum'), snap => {
-    const arr = []; snap.forEach(d => arr.push({ ...d.data(), _docId: d.id }));
-    arr.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-    _forumPosts = arr;
+    const arr = []; snap.forEach(d => arr.push({ ...d.data(), _docId: d.id, _pending: !!(d.metadata && d.metadata.hasPendingWrites) }));
+    _chatDocs = arr; updateBadges();
     if ($('page-forum')?.classList.contains('active')) renderForumList();
   });
 }
+function chatMessages() {
+  const me = currentParent && currentParent.id, out = [];
+  _chatDocs.forEach(m => {
+    if (m.kind === 'chat') out.push({ id: docKey(m), mine: m.senderId === me, school: m.role === 'school', name: m.senderName || 'Parent', body: m.body, image: m.image, audio: m.audio, ts: m.timestamp,
+      tick: m.senderId === me ? (m._pending ? 'pending' : (m.seenBy || []).some(x => x !== me) ? 'read' : 'sent') : '' });
+    else if (m.body) {   // posts from the earlier "forum" version still show up as chat messages
+      out.push({ id: docKey(m), mine: m.parentId === me, name: m.displayName || 'Parent', body: m.body, ts: m.timestamp });
+      (m.replies || []).forEach((r, i) => out.push({ id: docKey(m) + '#' + i, mine: false, name: r.displayName || 'Parent', body: r.body, ts: r.timestamp || m.timestamp }));
+    }
+  });
+  return out.sort((a, b) => new Date(a.ts) - new Date(b.ts));
+}
 function renderForumList() {
-  const el = $('forumList');
-  // keep any reply someone is typing while new posts arrive
-  const drafts = {}; let focused = null;
-  el.querySelectorAll('[data-reply-input]').forEach(i => { drafts[i.dataset.replyInput] = i.value; if (i === document.activeElement) focused = i.dataset.replyInput; });
-  el.innerHTML = _forumPosts.length ? _forumPosts.map(p => {
-    const k = esc(docKey(p));
-    return `<div class="forum-post">
-      <div class="forum-author"><div class="forum-avatar">${esc((p.displayName||'P').charAt(0).toUpperCase())}</div>
-        <div><strong style="font-size:13.5px;">${esc(p.displayName||'Parent')}</strong><div class="li-meta" style="margin-top:0;">${fmtDateTime(p.timestamp)}</div></div>
-      </div>
-      <div class="forum-body">${esc(p.body)}</div>
-      ${(p.replies||[]).map(r => `<div class="forum-reply"><strong>${esc(r.displayName)}:</strong> ${esc(r.body)}</div>`).join('')}
-      <div class="reply-row">
-        <input class="form-control" data-reply-input="${k}" placeholder="Write a reply..." autocomplete="off">
-        <button class="btn btn-ghost btn-sm" data-reply="${k}" aria-label="Send reply"><svg class="ic"><use href="#i-reply"/></svg></button>
-      </div>
-    </div>`;
-  }).join('') : emptyBox('users', 'No posts yet — be the first to say hello!');
-  Object.keys(drafts).forEach(k => { const i = el.querySelector(`[data-reply-input="${CSS.escape(k)}"]`); if (i && drafts[k]) i.value = drafts[k]; });
-  if (focused) { const i = el.querySelector(`[data-reply-input="${CSS.escape(focused)}"]`); if (i) i.focus(); }
+  const el = $('forumList'); if (!el) return;
+  const msgs = chatMessages();
+  waRenderThread(el, msgs, 'No messages yet — say hello to the other parents! 👋');
+  const people = new Set(msgs.map(m => m.name)); $('ccSub').textContent = people.size ? `${people.size} ${people.size === 1 ? 'person has' : 'people have'} chatted` : 'Group chat for all parents';
+  const me = currentParent && currentParent.id;
+  if ($('page-forum').classList.contains('active')) _chatDocs.filter(m => m.kind === 'chat' && m.senderId !== me && !(m.seenBy || []).includes(me) && !_seenMarked.has(docKey(m))).forEach(m => {
+    _seenMarked.add(docKey(m));
+    updateInFirebase('wp_parent_forum', docKey(m), { seenBy: window._firestoreFns.arrayUnion(me) });
+  });
 }
-function postToForum() {
-  const input = $('forumPostInput');
-  const body = input.value.trim();
-  if (!body) return;
-  const id = genID('FRM');
-  syncToFirebase('parent_forum', id, { id, parentId: currentParent.id, displayName: currentParent.displayName, body, timestamp: new Date().toISOString(), replies: [] });
-  input.value = '';
+function sendCommunity(payload) {
+  const id = genID('CHT');
+  syncToFirebase('parent_forum', id, { id, kind: 'chat', senderId: currentParent.id, senderName: currentParent.displayName, role: 'parent', timestamp: new Date().toISOString(), seenBy: [currentParent.id], ...payload });
 }
-function replyToForumPost(postId) {
-  const input = document.querySelector(`[data-reply-input="${CSS.escape(postId)}"]`);
-  if (!input) return;
-  const body = input.value.trim();
-  if (!body) return;
-  const post = _forumPosts.find(p => docKey(p) === postId);
-  if (!post) return;
-  const replies = [...(post.replies||[]), { displayName: currentParent.displayName, body, timestamp: new Date().toISOString() }];
-  updateInFirebase('wp_parent_forum', postId, { replies });
-  input.value = '';
+let _composersReady = false;
+function initChatComposers() {
+  if (_composersReady || !$('msgCompose')) return; _composersReady = true;
+  waComposer($('msgCompose'), { onText: t => sendSchoolMessage({ body: t }), onImage: d => sendSchoolMessage({ image: d }), onAudio: a => sendSchoolMessage({ audio: a }) });
+  waComposer($('forumCompose'), { onText: t => sendCommunity({ body: t }), onImage: d => sendCommunity({ image: d }), onAudio: a => sendCommunity({ audio: a }) });
 }
+// open homework documents / photos
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-att]');
+  if (a) { const h = DB.homework.find(x => docKey(x) === a.dataset.attSrc), meta = h && (h.attachments || []).find(m => m.id === a.dataset.att); if (meta) openAttachment(meta); return; }
+  const p = e.target.closest('[data-photo]');
+  if (p) { const h = DB.homework.find(x => docKey(x) === p.dataset.photo); if (h && h.photos) showImageViewer(h.photos[+p.dataset.i], h.title); }
+});
 
 // ============================================================
 // FEEDBACK & COMPLAINTS
@@ -1867,6 +1971,195 @@ function renderSettingsPage() {
   renderThemeOptions();
 }
 
+
+// ============================================================
+// ===== SHARED CHAT / ATTACHMENT TOOLKIT (used by both apps) =====
+// ============================================================
+const WA_EMOJIS = [
+  ['Smileys', '😀 😃 😄 😁 😆 😅 😂 🤣 😊 🙂 😉 😍 🥰 😘 😋 😎 🤩 🥳 😇 🤗 🤔 😴 😢 😭 😮 😱 😡 🙄 😬 🤝'.split(' ')],
+  ['Gestures', '👍 👎 👏 🙌 🙏 💪 ✌️ 🤞 👌 👋 🤙 ☝️ 👆 👇 👉 👈 ✋ 🖐️ 🤲 🫶'.split(' ')],
+  ['Hearts', '❤️ 🧡 💛 💚 💙 💜 🖤 🤍 💕 💖 💗 💯 ✨ ⭐ 🌟 🔥 🎉 🎊 🏆 🥇'.split(' ')],
+  ['School', '📚 📖 ✏️ 📝 🎒 🏫 🎓 🧮 🔬 🎨 🎵 ⚽ 🏃 🚌 ⏰ 📅 📢 📷 🍎 🥪'.split(' ')],
+  ['Fun', '🐦 🦜 🐶 🐱 🦁 🐘 🌳 🌞 🌈 ☔ 🍕 🍔 🍟 🍦 🍰 🥤 🎂 🎁 🎈 🚗'.split(' ')]
+];
+const waEsc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const waDur = s => { s = Math.max(0, Math.round(s || 0)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const waHue = str => { let h = 0; for (const c of String(str || '')) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+const waTime = ts => { const d = new Date(ts); return isNaN(d) ? '' : d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); };
+function waDayLabel(ts) {
+  const d = new Date(ts); if (isNaN(d)) return '';
+  const t0 = new Date(); t0.setHours(0, 0, 0, 0); const diff = Math.round((t0 - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+  return diff === 0 ? 'Today' : diff === 1 ? 'Yesterday' : d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+const waSafeSrc = u => /^(data:(image|audio)\/[a-z0-9.+-]+(;[a-z0-9=.+-]+)*;base64,|https?:\/\/)/i.test(u || '') ? u : '';
+
+// ---------- images ----------
+function readAsDataURL(file) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(new Error('Could not read file')); r.readAsDataURL(file); }); }
+function compressImageOnce(file, maxDim, q) {
+  return new Promise((resolve, reject) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const s = Math.min(1, maxDim / Math.max(img.width, img.height)), w = Math.round(img.width * s), h = Math.round(img.height * s);
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url); resolve(c.toDataURL('image/jpeg', q));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('That file is not a readable image')); };
+    img.src = url;
+  });
+}
+async function compressImage(file, maxBytes) {                 // shrinks until it fits maxBytes (default ≈ 230 KB)
+  maxBytes = maxBytes || 230000; let out = '';
+  for (const [d, q] of [[1280, .72], [1024, .66], [800, .6], [640, .55], [480, .5]]) { out = await compressImageOnce(file, d, q); if (out.length <= maxBytes * 1.34) return out; }
+  return out;
+}
+
+// ---------- documents (stored in small pieces: Firestore documents are limited to 1 MB) ----------
+const FILE_CHUNK = 600000, FILE_MAX = 3 * 1024 * 1024;
+async function uploadFileChunks(file, onProgress) {
+  if (file.size > FILE_MAX) throw new Error('"' + file.name + '" is larger than 3 MB');
+  const { doc, setDoc } = window._firestoreFns, db = window._firestoreDB;
+  if (!db) throw new Error('Not connected to the database');
+  const url = await readAsDataURL(file), b64 = url.slice(url.indexOf(',') + 1);
+  const id = 'F' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), n = Math.max(1, Math.ceil(b64.length / FILE_CHUNK)), mime = file.type || 'application/octet-stream';
+  for (let i = 0; i < n; i++) { await setDoc(doc(db, 'wp_files', id + '_' + i), { fileId: id, i, n, mime, name: file.name, data: b64.slice(i * FILE_CHUNK, (i + 1) * FILE_CHUNK) }); if (onProgress) onProgress((i + 1) / n); }
+  return { id, name: file.name, mime, size: file.size, chunks: n };
+}
+async function fetchFileBlob(meta) {
+  const { doc, getDoc } = window._firestoreFns, db = window._firestoreDB;
+  const parts = await Promise.all(Array.from({ length: meta.chunks }, (_, i) => getDoc(doc(db, 'wp_files', meta.id + '_' + i))));
+  let b64 = ''; for (const s of parts) { if (!s.exists()) throw new Error('Part of the file is missing'); b64 += s.data().data; }
+  const bin = atob(b64), bytes = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type: meta.mime });
+}
+async function deleteFileChunks(meta) {
+  try { const { doc, deleteDoc } = window._firestoreFns, db = window._firestoreDB; for (let i = 0; i < (meta.chunks || 0); i++) await deleteDoc(doc(db, 'wp_files', meta.id + '_' + i)); } catch (e) { console.warn(e); }
+}
+async function openAttachment(meta) {
+  try {
+    toast('Opening ' + meta.name + '…', 'info', 1800);
+    const blob = await fetchFileBlob(meta), url = URL.createObjectURL(blob);
+    if (/^image\//.test(meta.mime)) { showImageViewer(url, meta.name); return; }
+    const a = document.createElement('a'); a.href = url; a.download = meta.name; if (/pdf/.test(meta.mime)) a.target = '_blank';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 120000);
+  } catch (e) { console.warn(e); toast('Could not open the file: ' + (e.message || 'try again'), 'error'); }
+}
+function fileSizeText(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+function attachmentsHTML(h) {
+  const atts = (h.attachments || []).map(a => '<button class="att-chip" data-att="' + waEsc(a.id) + '" data-att-src="' + waEsc(h.id || h._docId || '') + '">' + ic('file-text') + '<span>' + waEsc(a.name) + '</span><small>' + fileSizeText(a.size || 0) + '</small></button>').join('');
+  const photos = (h.photos || []).map((p, i) => waSafeSrc(p) ? '<button data-photo="' + waEsc(h.id || h._docId || '') + '" data-i="' + i + '" aria-label="Open photo"><img src="' + waEsc(p) + '" alt="" loading="lazy"></button>' : '').join('');
+  return (atts ? '<div class="att-list">' + atts + '</div>' : '') + (photos ? '<div class="att-photos">' + photos + '</div>' : '');
+}
+function showImageViewer(src, title) {
+  let m = document.getElementById('imgViewerModal');
+  if (!m) { m = document.createElement('div'); m.className = 'modal-overlay'; m.id = 'imgViewerModal'; m.innerHTML = '<div class="modal"><div class="modal-header"><div class="modal-title" id="imgViewerTitle"></div><button class="modal-close" onclick="closeModal(\'imgViewerModal\')" aria-label="Close">' + ic('x') + '</button></div><div class="modal-body"><img class="img-viewer" id="imgViewerImg" alt=""></div></div>'; m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); }); document.body.appendChild(m); }
+  document.getElementById('imgViewerTitle').textContent = title || 'Photo'; document.getElementById('imgViewerImg').src = src; m.classList.add('open');
+}
+
+// ---------- voice notes ----------
+const WaRec = { rec: null, chunks: [], stream: null, t0: 0, timer: null, cancelled: false };
+function waPickMime() { const c = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus']; return (window.MediaRecorder && c.find(t => MediaRecorder.isTypeSupported(t))) || ''; }
+async function waStartRec(onTick) {
+  if (!navigator.mediaDevices || !window.MediaRecorder) throw new Error('Voice notes are not supported on this device');
+  WaRec.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const mime = waPickMime(); WaRec.chunks = []; WaRec.cancelled = false;
+  WaRec.rec = new MediaRecorder(WaRec.stream, Object.assign(mime ? { mimeType: mime } : {}, { audioBitsPerSecond: 24000 }));
+  WaRec.rec.ondataavailable = e => { if (e.data && e.data.size) WaRec.chunks.push(e.data); };
+  WaRec.rec.start(); WaRec.t0 = Date.now();
+  WaRec.timer = setInterval(() => { const s = (Date.now() - WaRec.t0) / 1000; onTick && onTick(s); if (s >= 120) waStopRec().then(r => WaRec.onAuto && WaRec.onAuto(r)); }, 250);
+}
+function waStopRec() {
+  return new Promise(resolve => {
+    const r = WaRec.rec; clearInterval(WaRec.timer);
+    if (!r || r.state === 'inactive') return resolve(null);
+    r.onstop = async () => {
+      WaRec.stream && WaRec.stream.getTracks().forEach(t => t.stop());
+      if (WaRec.cancelled) return resolve(null);
+      const blob = new Blob(WaRec.chunks, { type: r.mimeType || 'audio/webm' }), dur = (Date.now() - WaRec.t0) / 1000;
+      if (dur < 0.8) return resolve(null);
+      resolve({ data: await readAsDataURL(blob), mime: blob.type, dur: Math.round(dur) });
+    };
+    r.stop();
+  });
+}
+function waCancelRec() { WaRec.cancelled = true; clearInterval(WaRec.timer); try { WaRec.rec && WaRec.rec.state !== 'inactive' && WaRec.rec.stop(); } catch (e) {} WaRec.stream && WaRec.stream.getTracks().forEach(t => t.stop()); }
+let _waAudio = null;
+function waTogglePlay(btn) {
+  const box = btn.closest('.wa-audio'); let au = box._au;
+  if (_waAudio && _waAudio !== au) { _waAudio.pause(); }
+  if (!au) {
+    au = new Audio(box.dataset.src); box._au = au;
+    au.addEventListener('timeupdate', () => { const d = au.duration && isFinite(au.duration) ? au.duration : +box.dataset.dur || 1; box.querySelector('.wa-prog i').style.width = Math.min(100, au.currentTime / d * 100) + '%'; box.querySelector('.wa-time').textContent = waDur(au.currentTime); });
+    au.addEventListener('ended', () => { btn.innerHTML = ic('play'); box.querySelector('.wa-prog i').style.width = '0'; box.querySelector('.wa-time').textContent = waDur(+box.dataset.dur); });
+    au.addEventListener('pause', () => { btn.innerHTML = ic('play'); });
+    au.addEventListener('play', () => { btn.innerHTML = ic('pause'); });
+  }
+  _waAudio = au; if (au.paused) au.play().catch(() => toast('Could not play this voice note', 'error')); else au.pause();
+}
+
+// ---------- bubbles ----------
+function waTickHTML(state) {
+  if (!state) return '';
+  return state === 'pending' ? '<span class="wa-tick pending" title="Sending…">' + ic('check') + '</span>' : '<span class="wa-tick ' + (state === 'read' ? 'read' : 'sent') + '" title="' + (state === 'read' ? 'Read' : 'Delivered') + '">' + ic('check-check') + '</span>';
+}
+function waBubbleHTML(m) {      // {id, mine, name, school, body, image, audio, ts, tick, canDelete}
+  const hue = waHue(m.name), nameHTML = !m.mine && m.name ? '<div class="wa-name" style="color:hsl(' + hue + ' 72% var(--wa-l))">' + waEsc(m.name) + (m.school ? ' <em>School</em>' : '') + '</div>' : '';
+  const img = waSafeSrc(m.image) ? '<img class="wa-img" src="' + waEsc(m.image) + '" alt="Photo" data-wa-img loading="lazy">' : '';
+  const au = m.audio && waSafeSrc(m.audio.data) ? '<div class="wa-audio" data-src="' + waEsc(m.audio.data) + '" data-dur="' + (+m.audio.dur || 0) + '"><button data-wa-play aria-label="Play voice note">' + ic('play') + '</button><div class="wa-prog"><i></i></div><span class="wa-time">' + waDur(m.audio.dur) + '</span></div>' : '';
+  const del = m.canDelete ? '<button class="wa-del" data-wa-del="' + waEsc(m.id) + '" aria-label="Delete message">' + ic('trash-2') + '</button>' : '';
+  return '<div class="wa-msg ' + (m.mine ? 'me' : 'them') + (m.school ? ' school' : '') + '">' + del + nameHTML + img + au + (m.body ? '<div class="wa-text">' + waEsc(m.body) + '</div>' : '') + '<div class="wa-meta"><span>' + waTime(m.ts) + '</span>' + (m.mine ? waTickHTML(m.tick) : '') + '</div></div>';
+}
+function waRenderThread(el, msgs, emptyText) {
+  const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 140, first = !el.dataset.rendered;
+  let html = '', last = '';
+  msgs.forEach(m => { const d = waDayLabel(m.ts); if (d && d !== last) { html += '<div class="wa-day">' + d + '</div>'; last = d; } html += waBubbleHTML(m); });
+  el.innerHTML = html || '<div class="wa-empty">' + ic('messages-square') + waEsc(emptyText || 'No messages yet. Say hello!') + '</div>';
+  el.dataset.rendered = '1';
+  if (first || nearBottom) el.scrollTop = el.scrollHeight;
+}
+
+// ---------- composer (emoji • text • photo • voice) ----------
+function waComposer(host, handlers) {
+  host.innerHTML = '<div class="wa-emoji" hidden>' + WA_EMOJIS.map(g => '<h6>' + g[0] + '</h6><div>' + g[1].map(e => '<button type="button" data-emo="' + e + '">' + e + '</button>').join('') + '</div>').join('') + '</div>' +
+    '<button type="button" class="wa-btn" data-wa="emoji" aria-label="Emoji">' + ic('smile') + '</button>' +
+    '<textarea class="wa-input" rows="1" placeholder="Type a message" aria-label="Message"></textarea>' +
+    '<div class="wa-rec"><i></i><span class="wa-rec-t">0:00</span><span>Recording…</span><button type="button" data-wa="cancel" aria-label="Cancel recording">' + ic('trash-2') + '</button></div>' +
+    '<button type="button" class="wa-btn" data-wa="attach" aria-label="Send photo">' + ic('image-plus') + '</button><input type="file" accept="image/*" hidden>' +
+    '<button type="button" class="wa-btn send" data-wa="main" aria-label="Voice note">' + ic('mic') + '</button>';
+  host.classList.add('wa-compose');
+  const ta = host.querySelector('textarea'), main = host.querySelector('[data-wa="main"]'), emoji = host.querySelector('.wa-emoji'), file = host.querySelector('input[type=file]');
+  const recording = () => host.classList.contains('recording');
+  const refresh = () => { ta.style.height = 'auto'; ta.style.height = Math.min(130, ta.scrollHeight) + 'px'; const has = ta.value.trim().length > 0 || recording(); main.innerHTML = ic(has ? 'send' : 'mic'); main.setAttribute('aria-label', has ? 'Send' : 'Voice note'); };
+  ta.addEventListener('input', refresh);
+  ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && window.matchMedia('(pointer:fine)').matches) { e.preventDefault(); sendText(); } });
+  const sendText = () => { const t = ta.value.trim(); if (!t) return; ta.value = ''; refresh(); emoji.hidden = true; handlers.onText && handlers.onText(t); };
+  host.addEventListener('click', async e => {
+    const emo = e.target.closest('[data-emo]');
+    if (emo) { const s = ta.selectionStart || ta.value.length; ta.value = ta.value.slice(0, s) + emo.dataset.emo + ta.value.slice(ta.selectionEnd || s); ta.focus(); ta.selectionStart = ta.selectionEnd = s + emo.dataset.emo.length; refresh(); return; }
+    const b = e.target.closest('[data-wa]'); if (!b) return;
+    const act = b.dataset.wa;
+    if (act === 'emoji') emoji.hidden = !emoji.hidden;
+    else if (act === 'attach') file.click();
+    else if (act === 'cancel') { waCancelRec(); host.classList.remove('recording'); refresh(); }
+    else if (act === 'main') {
+      if (recording()) { const r = await waStopRec(); host.classList.remove('recording'); refresh(); if (r) { if (r.data.length > 900000) toast('That voice note is too long. Keep it under 2 minutes.', 'error'); else handlers.onAudio && handlers.onAudio(r); } }
+      else if (ta.value.trim()) sendText();
+      else {
+        try { await waStartRec(s => { host.querySelector('.wa-rec-t').textContent = waDur(s); }); WaRec.onAuto = r => { host.classList.remove('recording'); refresh(); if (r) handlers.onAudio && handlers.onAudio(r); }; host.classList.add('recording'); emoji.hidden = true; refresh(); }
+        catch (err) { toast(err && err.name === 'NotAllowedError' ? 'Allow microphone access to send voice notes.' : (err.message || 'Could not start recording'), 'error'); }
+      }
+    }
+  });
+  file.addEventListener('change', async () => { const f = file.files[0]; file.value = ''; if (!f) return; try { const data = await compressImage(f, 200000); handlers.onImage && handlers.onImage(data); } catch (err) { toast(err.message, 'error'); } });
+  refresh();
+  return { focus: () => ta.focus() };
+}
+document.addEventListener('click', e => {
+  const t = e.target;
+  const p = t.closest('[data-wa-play]'); if (p) { waTogglePlay(p); return; }
+  const im = t.closest('[data-wa-img]'); if (im) { showImageViewer(im.src, 'Photo'); return; }
+});
+
 // ============================================================
 // GLOBAL EVENTS
 // ============================================================
@@ -1886,7 +2179,6 @@ document.addEventListener('click', e => {
   if ((n = t.closest('[data-child]'))) return switchChild(n.dataset.child);
   if ((n = t.closest('[data-hw]'))) return toggleHomeworkDone(n.dataset.hw, n.dataset.done !== '1');
   if ((n = t.closest('[data-reg-event]'))) return registerForEvent(n.dataset.regEvent);
-  if ((n = t.closest('[data-reply]'))) return replyToForumPost(n.dataset.reply);
   if ((n = t.closest('[data-gallery]'))) return openLightbox(+n.dataset.gallery);
 });
 document.addEventListener('keydown', e => {
@@ -1901,9 +2193,6 @@ document.addEventListener('keydown', e => {
   if (t.id === 'loginPhone' && !$('loginPin').value) { $('loginPin').focus(); return; }
   const step = t.closest && t.closest('.auth-step');
   if (step && t.tagName === 'INPUT') { const b = step.querySelector('.btn-primary'); if (b) b.click(); return; }
-  if (t.id === 'parentMsgInput') return sendParentMessage();
-  if (t.id === 'forumPostInput') return postToForum();
-  if (t.dataset && t.dataset.replyInput) return replyToForumPost(t.dataset.replyInput);
 });
 
 // ============================================================
@@ -1986,6 +2275,7 @@ async function restoreSession() {
   } catch(e) { console.warn(e); }
 }
 setAllLogoImages();
+initChatComposers();
 renderThemeOptions();
 updateNetPill();
 updateInstallUI();
